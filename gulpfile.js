@@ -12,6 +12,7 @@ var gulp = require('gulp'),
     changed = require('gulp-changed'),
     rev = require('gulp-rev'),
     browserSync = require('browser-sync'),
+    ngannotate = require('gulp-ng-annotate'),
     del = require('del');
 
 
@@ -24,11 +25,11 @@ gulp.task('jshint', function() {
 
 gulp.task('usemin',['jshint'], function () {
   return gulp.src('./app/menu.html')
-      .pipe(usemin({
-        css:[minifycss(),rev()],
-        js: [uglify(),rev()]
-      }))
-      .pipe(gulp.dest('dist/'));
+    .pipe(usemin({
+      css:[minifycss(),rev()],
+      js: [ngannotate(),uglify(),rev()]
+    }))
+    .pipe(gulp.dest('dist/'));
 });
 
 // Images
@@ -52,11 +53,6 @@ gulp.task('clean', function() {
     return del(['dist']);
 });
 
-
-// Default task
-gulp.task('default', ['clean'], function() {
-    gulp.start('usemin', 'imagemin','copyfonts');
-});
 
 
 // Watch
@@ -90,5 +86,10 @@ gulp.task('browser-sync', ['default'], function () {
    });
 
 
+
+// Default task
+gulp.task('default', ['clean'], function() {
+    gulp.start('usemin', 'imagemin','copyfonts');
+});
 
 
