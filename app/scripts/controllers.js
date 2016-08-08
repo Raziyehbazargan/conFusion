@@ -11,7 +11,16 @@ angular.module('confusionApp')
             $scope.showDetails = false;
 			
 			//we moved the dishes array from here to dervice.js file, and here we use that using service name(menuFactory)
-      		$scope.dishes= menuFactory.getDishes();
+      		//$scope.dishes= menuFactory.getDishes();
+			
+			//using $http, we need a empty javascript object
+			$scope.dishes = {};
+			menuFactory.getDishes()
+			.then(
+				function(response){
+						$scope.dishes = response.data;
+				}
+			);
 			
             $scope.select = function(setTab) {
                 $scope.tab = setTab;
@@ -74,8 +83,16 @@ angular.module('confusionApp')
         .controller('DishDetailController', ['$scope','$stateParams','menuFactory', function($scope,$stateParams, menuFactory) {
 				
 			//we removed the dish array from here to and moved to service.js file and get dish using service(menuFactory)
-			$scope.dish= menuFactory.getDish(parseInt($stateParams.id,10));
-//			$scope.dish = dish;
+			//var dish= 				menuFactory.getDish(parseInt($stateParams.id,10));
+			// $scope.dish = dish;
+			//using $http service
+			$scope.dish ={};
+			menuFactory.getDish(parseInt($stateParams.id,10))
+			.then(
+				function(response){
+					$scope.dish = response.data;
+				}
+			);
                         
         }])
 
@@ -113,9 +130,19 @@ angular.module('confusionApp')
 	        // implement the IndexController and About Controller here
       // implement the IndexController and About Controller here
         .controller('IndexController', ['$scope','menuFactory','corporateFactory', function($scope,menuFactory,corporateFactory){
-            $scope.dish = menuFactory.getDish(3,10);
-            $scope.promotion = menuFactory.getPromotion(0,10);
-            $scope.leader = corporateFactory.getLeader(1,10);
+			
+            //$scope.dish = menuFactory.getDish(3);
+			//using $http to get a specific dish
+			$scope.dish ={};
+			menuFactory.getDish(0)
+			.then(
+				function(response){
+					$scope.dish = response.data;
+				}
+			);
+			
+            $scope.promotion = menuFactory.getPromotion(0);
+            $scope.leader = corporateFactory.getLeader(1);
             
         }])
         
