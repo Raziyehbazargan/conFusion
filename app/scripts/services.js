@@ -4,8 +4,9 @@ angular.module('confusionApp')
 		//.constant -->  using $http service - this is where the json-server running so will be accessing server
 		.constant("baseURL","http://localhost:3000/")
 
-		//we need to injection $http and baseURL into .service
-        .service('menuFactory',['$http','baseURL', function($http, baseURL) {
+		//when we use $http--> we need to injection $http and baseURL into .service
+		//when we use $resource to do REST API calls --> we need to injection $resource instead of $http  .service
+        .service('menuFactory',['$resource','baseURL', function($resource, baseURL) {
 			
     		// we no longer need the dishes array object here - we get this from server
 			//    var dishes=[
@@ -195,17 +196,21 @@ angular.module('confusionApp')
                     
                     //return dishes;
 					//using $http - we need to retrive from server
-					return $http.get(baseURL + "dishes");
+					//return $http.get(baseURL + "dishes");
+					
+					//using $resource - with $resource and using query we no longer need getdish function.
+					
+					return $resource(baseURL + "dishes/:id",null,{'update':{method:'PUT'}});
                     
                 };
     
-                this.getDish = function (index) {
-                    
-                   // return dishes[index];
-				  //using $http - we need to retrive from server
-					return $http.get(baseURL + "dishes" + index);
-
-                };
+//                this.getDish = function (index) {
+//                    
+//                   // return dishes[index];
+//				  //using $http - we need to retrive from server
+//					return $http.get(baseURL + "dishes" + index);
+//
+//                };
     
                 // implement a function named getPromotion
                  this.getPromotion = function(index){
