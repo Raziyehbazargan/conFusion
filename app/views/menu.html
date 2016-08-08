@@ -23,10 +23,17 @@
 			  <ul class="media-list">
 				<li class="media" ng-repeat="dish in dishes | filter:filtText">
 					<div class="media-left media-middle">
+						<!-- if using ng-route we should use {{}} for params
 						<a ng-href="#/menu/{{dish._id}}">
 						<img class="media-object img-thumbnail"
 						 ng-src={{dish.image}} alt="Uthappizza">
 						</a>
+						-->
+						<!--using ui-route is like this -->
+						<a ui-sref="app.dishdetails({id: dish._id})">
+                        <img class="media-object img-thumbnail"
+                        ng-src={{dish.image}} alt="Uthappizza">
+                        </a>
 					</div>
 					<div class="media-body">
 						<h2 class="media-heading">{{dish.name}}
