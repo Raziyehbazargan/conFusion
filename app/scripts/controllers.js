@@ -56,7 +56,7 @@ angular.module('confusionApp')
                 
                 console.log($scope.feedback);
                 
-                if ($scope.feedback.agree && ($scope.feedback.mychannel == "")) {
+                if ($scope.feedback.agree && ($scope.feedback.mychannel === "")) {
                     $scope.invalidChannelSelection = true;
                     console.log('incorrect');
                 }
@@ -69,11 +69,13 @@ angular.module('confusionApp')
                 }
             };
         }])
-
-        .controller('DishDetailController', ['$scope','$routeParams','menuFactory', function($scope,$routeParams, menuFactory) {
-
+		
+		//if we using ng-route we need to inject $routeParams but with ui-routing we use $stateParams
+        .controller('DishDetailController', ['$scope','$stateParams','menuFactory', function($scope,$stateParams, menuFactory) {
+				
 			//we removed the dish array from here to and moved to service.js file and get dish using service(menuFactory)
-			$scope.dish= menuFactory.getDish(parseInt($routeParams.id,10));
+			$scope.dish= menuFactory.getDish(parseInt($stateParams.id,10));
+//			$scope.dish = dish;
                         
         }])
 
