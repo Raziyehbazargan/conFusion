@@ -9,6 +9,8 @@ angular.module('confusionApp')
             $scope.tab = 1;
             $scope.filtText = '';
             $scope.showDetails = false;
+			$scope.showMenu = false;
+			$scope.message = "Loading...";
 			
 			//we moved the dishes array from here to dervice.js file, and here we use that using service name(menuFactory)
       		//$scope.dishes= menuFactory.getDishes();
@@ -19,6 +21,10 @@ angular.module('confusionApp')
 			.then(
 				function(response){
 						$scope.dishes = response.data;
+						$scope.showMenu = true;
+				},
+				function(response){
+						$scope.message = "Error: +" + response.status + " " + response.statusText;
 				}
 			);
 			
@@ -81,7 +87,8 @@ angular.module('confusionApp')
 		
 		//if we using ng-route we need to inject $routeParams but with ui-routing we use $stateParams
         .controller('DishDetailController', ['$scope','$stateParams','menuFactory', function($scope,$stateParams, menuFactory) {
-				
+			$scope.showDish = false;
+			$scope.message="Laoding...";
 			//we removed the dish array from here to and moved to service.js file and get dish using service(menuFactory)
 			//var dish= 				menuFactory.getDish(parseInt($stateParams.id,10));
 			// $scope.dish = dish;
@@ -91,6 +98,10 @@ angular.module('confusionApp')
 			.then(
 				function(response){
 					$scope.dish = response.data;
+					$scope.showDish = true;
+				},
+				function(response){
+					$scope.message = "Error: " + response.status + " " + response.statusText;
 				}
 			);
                         
