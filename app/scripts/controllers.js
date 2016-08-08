@@ -70,10 +70,10 @@ angular.module('confusionApp')
             };
         }])
 
-        .controller('DishDetailController', ['$scope','menuFactory', function($scope, menuFactory) {
+        .controller('DishDetailController', ['$scope','$routeParams','menuFactory', function($scope,$routeParams, menuFactory) {
 
 			//we removed the dish array from here to and moved to service.js file and get dish using service(menuFactory)
-			$scope.dish= menuFactory.getDish(3);
+			$scope.dish= menuFactory.getDish(parseInt($routeParams.id,10));
                         
         }])
 
