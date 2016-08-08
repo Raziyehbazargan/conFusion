@@ -15,18 +15,23 @@ angular.module('confusionApp')
 			//we moved the dishes array from here to dervice.js file, and here we use that using service name(menuFactory)
       		//$scope.dishes= menuFactory.getDishes();
 			
+			
 			//using $http, we need a empty javascript object
-			$scope.dishes = {};
-			menuFactory.getDishes()
-			.then(
-				function(response){
-						$scope.dishes = response.data;
-						$scope.showMenu = true;
-				},
-				function(response){
-						$scope.message = "Error: +" + response.status + " " + response.statusText;
-				}
-			);
+//			$scope.dishes = {};
+//			menuFactory.getDishes()
+//			.then(
+//				function(response){
+//						$scope.dishes = response.data;
+//						$scope.showMenu = true;
+//				},
+//				function(response){
+//						$scope.message = "Error: +" + response.status + " " + response.statusText;
+//				}
+//			);
+//			
+			
+			//using $resource we need just to write:in return data in an empty array
+			$scope.dishes = menuFactory.getDishes().query();
 			
             $scope.select = function(setTab) {
                 $scope.tab = setTab;
@@ -93,17 +98,20 @@ angular.module('confusionApp')
 			//var dish= 				menuFactory.getDish(parseInt($stateParams.id,10));
 			// $scope.dish = dish;
 			//using $http service
-			$scope.dish ={};
-			menuFactory.getDish(parseInt($stateParams.id,10))
-			.then(
-				function(response){
-					$scope.dish = response.data;
-					$scope.showDish = true;
-				},
-				function(response){
-					$scope.message = "Error: " + response.status + " " + response.statusText;
-				}
-			);
+//			$scope.dish ={};
+//			menuFactory.getDish(parseInt($stateParams.id,10))
+//			.then(
+//				function(response){
+//					$scope.dish = response.data;
+//					$scope.showDish = true;
+//				},
+//				function(response){
+//					$scope.message = "Error: " + response.status + " " + response.statusText;
+//				}
+//			);
+			
+			//using $resource--> 
+			$scope.dish = menuFactory.getDishes().get({id:parseInt($stateParams.id,10)});
                         
         }])
 
@@ -143,14 +151,22 @@ angular.module('confusionApp')
         .controller('IndexController', ['$scope','menuFactory','corporateFactory', function($scope,menuFactory,corporateFactory){
 			
             //$scope.dish = menuFactory.getDish(3);
-			//using $http to get a specific dish
-			$scope.dish ={};
-			menuFactory.getDish(0)
-			.then(
-				function(response){
-					$scope.dish = response.data;
-				}
-			);
+			//using $http to get a specific message
+			//$scope.dish ={};
+			$scope.message = "Loading...";
+			$scope.showDish = false;
+//			menuFactory.getDish(0)
+//			.then(
+//				function(response){
+//					$scope.dish = response.data;
+//				},
+//				function(response){
+//					$scope.message = "Error: "+ response.status + " " + response.statusText;
+//				}
+//			);
+			
+			//using $resource
+			$scope.dish = menuFactory.getDishes().get({id:0});
 			
             $scope.promotion = menuFactory.getPromotion(0);
             $scope.leader = corporateFactory.getLeader(1);
